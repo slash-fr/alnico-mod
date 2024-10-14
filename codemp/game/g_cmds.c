@@ -1580,6 +1580,13 @@ void G_Say( gentity_t *ent, gentity_t *target, int mode, const char *chatText ) 
 	char		location[64];
 	char		*locMsg = NULL;
 
+	// Alnico mod: Optionnaly disable the chat
+	if (g_disableChat.integer) {
+		// Notify the user (via the console) that the chat is disabled
+		trap->SendServerCommand(ent - g_entities, "print \"The chat is currently disabled on this server.\n\"");
+		return;
+	}
+
 	if ( level.gametype < GT_TEAM && mode == SAY_TEAM ) {
 		mode = SAY_ALL;
 	}

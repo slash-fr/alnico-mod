@@ -248,6 +248,11 @@ typedef enum {
 	GT_MAX_GAME_TYPE
 } gametype_t;
 
+// Alnico mod: Is the game type compatible with the "Custom Spawn Equipment" cvars?
+// (FFA, Single Player FFA, Team FFA, CTF, Duel)
+#define IS_CUSTOM_SPAWN_GAMETYPE(gametype) (gametype == GT_FFA || GT_SINGLE_PLAYER || gametype == GT_TEAM || gametype == GT_CTF || gametype == GT_DUEL)
+// Does not impact Holocron, Jedi Master, Power Duel, Siege, nor CTY
+
 // gametype bits
 #define GTB_NONE			0x000 // invalid
 #define GTB_FFA				0x001 // free for all

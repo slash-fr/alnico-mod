@@ -84,12 +84,42 @@ XCVAR_DEF( g_debugMelee,				"0",			NULL,						CVAR_SERVERINFO,								qtrue )
 XCVAR_DEF( g_debugMove,					"0",			NULL,						CVAR_NONE,										qfalse )
 XCVAR_DEF( g_debugSaberLocks,			"0",			NULL,						CVAR_CHEAT,										qfalse )
 XCVAR_DEF( g_debugServerSkel,			"0",			NULL,						CVAR_CHEAT,										qfalse )
+// Alnico mod: Option to disable the chat
+XCVAR_DEF( g_disableChat,				"0",			NULL,						CVAR_ARCHIVE,									qtrue )
 #ifdef _DEBUG
 XCVAR_DEF( g_disableServerG2,			"0",			NULL,						CVAR_NONE,										qtrue )
 #endif
 XCVAR_DEF( g_dismember,					"0",			NULL,						CVAR_ARCHIVE,									qtrue )
+////////////////////////////////////////////////////////////////////////////////
+// Alnico mod: Disruptor mods
+// Disruptor alt damage (does not apply to "instant alt")
+XCVAR_DEF( g_disruptor_altDamage,		"100",			NULL,						CVAR_ARCHIVE,									qfalse )
+// Disruptor energy (ammo) required per shot (alt fire - does not apply to "instant alt")
+XCVAR_DEF( g_disruptor_altEnergyPerShot,"6",			NULL,						CVAR_ARCHIVE,									qfalse )
+// Disruptor alt firing rate (time between shots, in milliseconds) - does not apply to "instant alt"
+XCVAR_DEF( g_disruptor_altFireTime,		"1300",			NULL,						CVAR_ARCHIVE,									qfalse )
+// Disruptor main damage (does not apply to siege mode) - also applies to "alt fire" in "instant alt" mode
+XCVAR_DEF( g_disruptor_damage,			"30",			NULL,						CVAR_ARCHIVE,									qfalse )
+// Disruptor energy (ammo) required per shot (main fire - also applies to "instant alt")
+XCVAR_DEF( g_disruptor_energyPerShot,	"5",			NULL,						CVAR_ARCHIVE,									qfalse )
+// Disruptor main firing rate (time between shots, in milliseconds) - also applies to "instant alt"
+XCVAR_DEF( g_disruptor_fireTime,		"600",			NULL,						CVAR_ARCHIVE,									qfalse )
+// Instant Disruptor alt fire (becomes identical to the main fire mode, just zoomed in)
+XCVAR_DEF( g_disruptor_instantAlt,		"0",			NULL,						CVAR_ARCHIVE,									qfalse )
+// Disruptor main fire also disintegrates (if it results in a kill) - also applies to the "instant alt" mode
+XCVAR_DEF( g_disruptor_mainDisint,		"0",			NULL,						CVAR_ARCHIVE,									qfalse )
+// Disruptor disintegration prevents death scream
+XCVAR_DEF( g_disruptor_muteDisint,		"0",			NULL,						CVAR_ARCHIVE,									qfalse )
+// Disruptor main damage (siege only)
+XCVAR_DEF( g_disruptor_siegeDamage,		"50",			NULL,						CVAR_ARCHIVE,									qfalse )
+// End of Disruptor mods (Alnico Mod)
+////////////////////////////////////////////////////////////////////////////////
 XCVAR_DEF( g_doWarmup,					"0",			NULL,						CVAR_NONE,										qtrue )
 //XCVAR_DEF( g_engineModifications,		"1",			NULL,						CVAR_ARCHIVE,									qfalse )
+// Alnico mod: Allow health / armor items in Duel mode?
+XCVAR_DEF( g_duel_allowHealthItems,		"0",			NULL,						CVAR_ARCHIVE,									qfalse )
+// Alnico mod: Fall damage multiplier
+XCVAR_DEF( g_fallDamageScale,			"1.0",			NULL,						CVAR_ARCHIVE,									qfalse )
 XCVAR_DEF( g_ff_objectives,				"0",			NULL,						CVAR_CHEAT|CVAR_NORESTART,						qtrue )
 XCVAR_DEF( g_filterBan,					"1",			NULL,						CVAR_ARCHIVE,									qfalse )
 XCVAR_DEF( g_fixSaberDisarmBonus,		"1",			NULL,						CVAR_ARCHIVE,									qfalse )
@@ -155,11 +185,52 @@ XCVAR_DEF( g_siegeTeam2,				"none",			NULL,						CVAR_ARCHIVE|CVAR_SERVERINFO,		
 XCVAR_DEF( g_siegeTeamSwitch,			"1",			NULL,						CVAR_SERVERINFO|CVAR_ARCHIVE,					qfalse )
 XCVAR_DEF( g_slowmoDuelEnd,				"0",			NULL,						CVAR_ARCHIVE,									qtrue )
 XCVAR_DEF( g_smoothClients,				"1",			NULL,						CVAR_NONE,										qfalse )
+////////////////////////////////////////////////////////////////////////////////
+// Alnico mod: "Custom Spawn Equipment" cvars (only applies to GT_FFA, GT_TEAM, and GT_CTF)
+// Ammo
+XCVAR_DEF( g_spawn_ammo_blaster,		"0",			NULL,						CVAR_ARCHIVE,									qfalse )
+XCVAR_DEF( g_spawn_ammo_powercell,		"0",			NULL,						CVAR_ARCHIVE,									qfalse )
+XCVAR_DEF( g_spawn_ammo_metalBolts,		"0",			NULL,						CVAR_ARCHIVE,									qfalse )
+XCVAR_DEF( g_spawn_ammo_rockets,		"0",			NULL,						CVAR_ARCHIVE,									qfalse )
+XCVAR_DEF( g_spawn_ammo_thermal,		"0",			NULL,						CVAR_ARCHIVE,									qfalse )
+XCVAR_DEF( g_spawn_ammo_tripmine,		"0",			NULL,						CVAR_ARCHIVE,									qfalse )
+XCVAR_DEF( g_spawn_ammo_detpack,		"0",			NULL,						CVAR_ARCHIVE,									qfalse )
+// g_spawn_armor: starting armor (shields)
+XCVAR_DEF( g_spawn_armor,			    "25",			NULL,						CVAR_ARCHIVE,									qfalse )
+// g_spawn_equippedHoldableItem: which holdable item should be equipped at spawn
+XCVAR_DEF( g_spawn_equippedHoldableItem,"0",			NULL,						CVAR_ARCHIVE,									qfalse )
+// g_spawn_equippedWeapon: By default, the player will start with WP_SABER equipped
+XCVAR_DEF( g_spawn_equippedWeapon,	    "3",			NULL,						CVAR_ARCHIVE,									qfalse )
+// g_spawn_health: starting health
+XCVAR_DEF( g_spawn_health,			    "125",			NULL,						CVAR_ARCHIVE,									qfalse )
+// Holdable items (bitmask, e.g. Jetpack + Binoculars + ..., default: none)
+XCVAR_DEF( g_spawn_holdableItems,	    "0",			NULL,						CVAR_ARCHIVE,									qfalse )
+// g_spawn_max_health: Max (idle) health. Also impacts armor (shields)
+//     Starting health / armor (g_spawn_health / g_spawn_armor) can be higher than g_spawn_max_health, but will slowly decrease to this value.
+XCVAR_DEF( g_spawn_max_health,		    "100",			NULL,						CVAR_ARCHIVE,									qtrue )
+// g_spawn_trueJedi: cannot pickup weapons other than WP_SABER, cannot pickup certain items (health, holdable items, ...)
+XCVAR_DEF( g_spawn_trueJedi,		    "0",			NULL,						CVAR_ARCHIVE,									qtrue )
+// g_spawn_trueNonJedi: disable force powers (including jump level 1)
+XCVAR_DEF( g_spawn_trueNonJedi,		    "0",			NULL,						CVAR_ARCHIVE,									qtrue )
+// g_spawn_weapons: available weapons (bitmask). Default value: WP_SABER and WP_BRYAR_PISTOL
+XCVAR_DEF( g_spawn_weapons,				"24",			NULL,						CVAR_ARCHIVE,									qfalse )
+// End of "Custom Spawn Equipment" cvars (Alnico mod)
+////////////////////////////////////////////////////////////////////////////////
 XCVAR_DEF( g_spawnInvulnerability,		"3000",			NULL,						CVAR_ARCHIVE,									qtrue )
 XCVAR_DEF( g_speed,						"250",			NULL,						CVAR_NONE,										qtrue )
 XCVAR_DEF( g_statLog,					"0",			NULL,						CVAR_ARCHIVE,									qfalse )
 XCVAR_DEF( g_statLogFile,				"statlog.log",	NULL,						CVAR_ARCHIVE,									qfalse )
 XCVAR_DEF( g_stepSlideFix,				"1",			NULL,						CVAR_SERVERINFO,								qtrue )
+////////////////////////////////////////////////////////////////////////////////
+// Alnico mod: Stun Baton mods
+// Stun baton alt firing rate (time between shots)
+XCVAR_DEF( g_stunBaton_altFireTime,		"400",			NULL,						CVAR_ARCHIVE,									qfalse )
+// Stun baton damage (both for main and alt fire)
+XCVAR_DEF( g_stunBaton_damage,			"20",			NULL,						CVAR_ARCHIVE,									qfalse )
+// Stun baton main firing rate (time between shots)
+XCVAR_DEF( g_stunBaton_fireTime,		"400",			NULL,						CVAR_ARCHIVE,									qfalse )
+// End of Stun Baton mods (Alnico Mod)
+////////////////////////////////////////////////////////////////////////////////
 XCVAR_DEF( g_synchronousClients,		"0",			NULL,						CVAR_SYSTEMINFO,								qfalse )
 XCVAR_DEF( g_teamAutoJoin,				"0",			NULL,						CVAR_ARCHIVE,									qfalse )
 XCVAR_DEF( g_teamForceBalance,			"0",			NULL,						CVAR_ARCHIVE,									qfalse )
@@ -170,6 +241,10 @@ XCVAR_DEF( g_voteDelay,					"3000",			NULL,						CVAR_NONE,										qfalse )
 XCVAR_DEF( g_warmup,					"20",			NULL,						CVAR_ARCHIVE,									qtrue )
 XCVAR_DEF( g_weaponDisable,				"0",			NULL,						CVAR_SERVERINFO|CVAR_ARCHIVE|CVAR_LATCH,		qtrue )
 XCVAR_DEF( g_weaponRespawn,				"5",			NULL,						CVAR_NONE,										qtrue )
+// Alnico mod: Welcome message
+XCVAR_DEF( g_welcomeMsg,				"",				NULL,						CVAR_ARCHIVE,									qfalse )
+// Alnico mod: Welcome message duration (in seconds)
+XCVAR_DEF( g_welcomeMsgDuration,		"0",			NULL,						CVAR_ARCHIVE,									qfalse )
 XCVAR_DEF( gamedate,					SOURCE_DATE,	NULL,						CVAR_ROM,										qfalse )
 XCVAR_DEF( gamename,					GAMEVERSION,	NULL,						CVAR_SERVERINFO|CVAR_ROM,						qfalse )
 XCVAR_DEF( pmove_fixed,					"0",			NULL,						CVAR_SYSTEMINFO|CVAR_ARCHIVE,					qtrue )

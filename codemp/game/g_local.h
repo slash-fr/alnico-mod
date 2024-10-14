@@ -591,6 +591,9 @@ struct gclient_s {
 	clientPersistant_t	pers;
 	clientSession_t		sess;
 
+	// Alnico mod: Welcome message timer
+	int			welcomeTimer;
+
 	saberInfo_t	saber[MAX_SABERS];
 	void		*weaponGhoul2[MAX_SABERS];
 

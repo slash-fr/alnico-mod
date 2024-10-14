@@ -1887,6 +1887,23 @@ void ClientThink_real( gentity_t *ent ) {
 		return;
 	}
 
+	// Alnico mod: Display the welcome message, if necessary
+	if (g_welcomeMsgDuration.integer && g_welcomeMsg.string[0]) { // There's a message, with a non-zero duration
+		// We need to take into account the fact that the message will stay visible for 3 seconds after the last call to "cp"
+		int welcomeMsgMilliseconds = max(
+			500, // Display the welcome message at least once (in the first 500 ms)
+			(g_welcomeMsgDuration.integer - 3) * 1000 // Remove 3 seconds from the configured delay
+		);
+
+		if (
+			client->pers.enterTime + welcomeMsgMilliseconds > level.time // No too late
+			&& client->welcomeTimer < level.time // Not too soon
+		) {
+			trap->SendServerCommand(ent - g_entities, va("cp \"%s\"", G_NewString(g_welcomeMsg.string)));
+			client->welcomeTimer = level.time + 500; // Don't repeat the "cp" command more than once every 500 ms
+		}
+	}
+
 	// This code was moved here from clientThink to fix a problem with g_synchronousClients
 	// being set to 1 when in vehicles.
 	if ( ent->s.number < MAX_CLIENTS && ent->client->ps.m_iVehicleNum )

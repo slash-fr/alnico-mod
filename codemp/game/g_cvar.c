@@ -90,6 +90,20 @@ void G_RegisterCvars( void ) {
 		trap->Cvar_Register( cv->vmCvar, cv->cvarName, cv->defaultString, cv->cvarFlags );
 		if ( cv->update )
 			cv->update();
+		// Alnico mod: weaponData
+		if ( !Q_stricmp( cv->cvarName, "g_disruptor_altEnergyPerShot" ) ) {
+			weaponData[WP_DISRUPTOR].altEnergyPerShot = g_disruptor_altEnergyPerShot.integer;
+		} else if ( !Q_stricmp( cv->cvarName, "g_disruptor_altFireTime" ) ) {
+			weaponData[WP_DISRUPTOR].altFireTime = g_disruptor_altFireTime.integer;
+		} else if ( !Q_stricmp( cv->cvarName, "g_disruptor_energyPerShot" ) ) {
+			weaponData[WP_DISRUPTOR].energyPerShot = g_disruptor_energyPerShot.integer;
+		} else if ( !Q_stricmp( cv->cvarName, "g_disruptor_fireTime" ) ) {
+			weaponData[WP_DISRUPTOR].fireTime = g_disruptor_fireTime.integer;
+		} else if ( !Q_stricmp( cv->cvarName, "g_stunBaton_altFireTime" ) ) {
+			weaponData[WP_STUN_BATON].altFireTime = g_stunBaton_altFireTime.integer;
+		} else if ( !Q_stricmp( cv->cvarName, "g_stunBaton_fireTime" ) ) {
+			weaponData[WP_STUN_BATON].fireTime = g_stunBaton_fireTime.integer;
+		}
 	}
 }
 
@@ -104,6 +118,21 @@ void G_UpdateCvars( void ) {
 			if ( cv->vmCvar->modificationCount != modCount ) {
 				if ( cv->update )
 					cv->update();
+
+				// Alnico mod: weaponData
+				if ( !Q_stricmp( cv->cvarName, "g_disruptor_altEnergyPerShot" ) ) {
+					weaponData[WP_DISRUPTOR].altEnergyPerShot = g_disruptor_altEnergyPerShot.integer;
+				} else if ( !Q_stricmp( cv->cvarName, "g_disruptor_altFireTime" ) ) {
+					weaponData[WP_DISRUPTOR].altFireTime = g_disruptor_altFireTime.integer;
+				} else if ( !Q_stricmp( cv->cvarName, "g_disruptor_energyPerShot" ) ) {
+					weaponData[WP_DISRUPTOR].energyPerShot = g_disruptor_energyPerShot.integer;
+				} else if ( !Q_stricmp( cv->cvarName, "g_disruptor_fireTime" ) ) {
+					weaponData[WP_DISRUPTOR].fireTime = g_disruptor_fireTime.integer;
+				} else if ( !Q_stricmp( cv->cvarName, "g_stunBaton_altFireTime" ) ) {
+					weaponData[WP_STUN_BATON].altFireTime = g_stunBaton_altFireTime.integer;
+				} else if ( !Q_stricmp( cv->cvarName, "g_stunBaton_fireTime" ) ) {
+					weaponData[WP_STUN_BATON].fireTime = g_stunBaton_fireTime.integer;
+				}
 
 				if ( cv->trackChange )
 					trap->SendServerCommand( -1, va("print \"Server: %s changed to %s\n\"", cv->cvarName, cv->vmCvar->string ) );

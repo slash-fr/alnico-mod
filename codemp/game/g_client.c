@@ -3623,6 +3623,27 @@ void ClientSpawn(gentity_t *ent) {
 		}
 	}
 
+	// Alnico mod: Apply the "Custom Spawn Equipment" cvars to the appropriate game types
+	if (IS_CUSTOM_SPAWN_GAMETYPE(level.gametype))
+	{
+		client->ps.trueJedi = g_spawn_trueJedi.integer;
+		client->ps.trueNonJedi = g_spawn_trueNonJedi.integer;
+		// Starting weapons
+		client->ps.stats[STAT_WEAPONS] = g_spawn_weapons.integer;
+		client->ps.weapon = g_spawn_equippedWeapon.integer;
+		// Starting ammo
+		client->ps.ammo[AMMO_BLASTER] = g_spawn_ammo_blaster.integer;
+		client->ps.ammo[AMMO_POWERCELL] = g_spawn_ammo_powercell.integer;
+		client->ps.ammo[AMMO_METAL_BOLTS] = g_spawn_ammo_metalBolts.integer;
+		client->ps.ammo[AMMO_ROCKETS] = g_spawn_ammo_rockets.integer;
+		client->ps.ammo[AMMO_THERMAL] = g_spawn_ammo_thermal.integer;
+		client->ps.ammo[AMMO_TRIPMINE] = g_spawn_ammo_tripmine.integer;
+		client->ps.ammo[AMMO_DETPACK] = g_spawn_ammo_detpack.integer;
+		// Starting items
+		client->ps.stats[STAT_HOLDABLE_ITEMS] = g_spawn_holdableItems.integer;
+		client->ps.stats[STAT_HOLDABLE_ITEM] = g_spawn_equippedHoldableItem.integer;
+	}
+
 	if ( client->sess.sessionTeam == TEAM_SPECTATOR )
 	{
 		client->ps.stats[STAT_WEAPONS] = 0;
@@ -3631,8 +3652,8 @@ void ClientSpawn(gentity_t *ent) {
 	}
 
 // nmckenzie: DESERT_SIEGE... or well, siege generally.  This was over-writing the max value, which was NOT good for siege.
-	if ( inSiegeWithClass == qfalse )
-	{
+	if ( inSiegeWithClass == qfalse && !IS_CUSTOM_SPAWN_GAMETYPE(level.gametype))
+	{ // (Not in Alnico mod)
 		client->ps.ammo[AMMO_BLASTER] = 100; //ammoData[AMMO_BLASTER].max; //100 seems fair.
 	}
 //	client->ps.ammo[AMMO_POWERCELL] = ammoData[AMMO_POWERCELL].max;
@@ -3726,6 +3747,17 @@ void ClientSpawn(gentity_t *ent) {
 	else
 	{
 		client->ps.stats[STAT_ARMOR] = client->ps.stats[STAT_MAX_HEALTH] * 0.25;
+	}
+
+	// Alnico mod: Apply health / armor choices to the appropriate game types
+	if (IS_CUSTOM_SPAWN_GAMETYPE(level.gametype))
+	{
+		// Starting health and armor
+		client->ps.stats[STAT_HEALTH] = g_spawn_health.integer;
+		ent->health = g_spawn_health.integer;
+		client->ps.stats[STAT_ARMOR] = g_spawn_armor.integer;
+		// Max idle health AND max idle armor
+		client->ps.stats[STAT_MAX_HEALTH] = g_spawn_max_health.integer;
 	}
 
 	G_SetOrigin( ent, spawn_origin );

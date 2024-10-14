@@ -3860,6 +3860,9 @@ static void PM_CrashLand( void ) {
 		delta *= 0.5;
 	}
 
+	// Alnico mod: Fall damage multiplier
+	delta *= g_fallDamageScale.value;
+
 	if ( delta < 1 ) {
 		return;
 	}
@@ -6116,6 +6119,11 @@ static qboolean PM_DoChargedWeapons( qboolean vehicleRocketLock, bgEntity_t *veh
 			break;
 
 		case WP_DISRUPTOR:
+			// Alnico mod: instant alt fire (becomes identical to the main fire)
+			if (g_disruptor_instantAlt.integer) {
+				break;
+			}
+
 			if ((pm->cmd.buttons & BUTTON_ATTACK) &&
 				pm->ps->zoomMode == 1 &&
 				pm->ps->zoomLocked)
@@ -8143,8 +8151,8 @@ void PM_AdjustAttackStates( pmove_t *pmove )
 		{
 			// If we are zoomed, we should switch the ammo usage to the alt-fire, otherwise, we'll
 			//	just use whatever ammo was selected from above
-			if ( pmove->ps->zoomMode )
-			{
+			if ( pmove->ps->zoomMode && !g_disruptor_instantAlt.value)
+			{ // (Alnico mod: not in "instant alt" mode)
 				amount = pmove->ps->ammo[weaponData[ pmove->ps->weapon ].ammoIndex] -
 							weaponData[pmove->ps->weapon].altEnergyPerShot;
 			}
@@ -8199,8 +8207,8 @@ void PM_AdjustAttackStates( pmove_t *pmove )
 	// disruptor should convert a main fire to an alt-fire if the gun is currently zoomed
 	if ( pmove->ps->weapon == WP_DISRUPTOR)
 	{
-		if ( pmove->cmd.buttons & BUTTON_ATTACK && pmove->ps->zoomMode == 1 && pmove->ps->zoomLocked)
-		{
+		if ( pmove->cmd.buttons & BUTTON_ATTACK && pmove->ps->zoomMode == 1 && pmove->ps->zoomLocked && !g_disruptor_instantAlt.integer)
+		{ // (Alnico mod: not in "instant alt" mode)
 			// converting the main fire to an alt-fire
 			pmove->cmd.buttons |= BUTTON_ALT_ATTACK;
 			pmove->ps->eFlags |= EF_ALT_FIRING;

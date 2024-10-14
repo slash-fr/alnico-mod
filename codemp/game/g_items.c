@@ -2886,8 +2886,8 @@ void FinishSpawningItem( gentity_t *ent ) {
 		}
 	}
 
-	if (level.gametype == GT_DUEL || level.gametype == GT_POWERDUEL)
-	{
+	if ( (level.gametype == GT_DUEL || level.gametype == GT_POWERDUEL) && !g_duel_allowHealthItems.integer)
+	{ // g_duel_allowHealthItems is an Alnico mod variable
 		if ( ent->item->giType == IT_ARMOR ||
 			ent->item->giType == IT_HEALTH ||
 			(ent->item->giType == IT_HOLDABLE && (ent->item->giTag == HI_MEDPAC || ent->item->giTag == HI_MEDPAC_BIG)) )

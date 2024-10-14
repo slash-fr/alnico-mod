@@ -542,6 +542,8 @@ static void WP_FireBlaster( gentity_t *ent, qboolean altFire )
 
 int G_GetHitLocation(gentity_t *target, vec3_t ppoint);
 
+qboolean G_CanDisruptify(gentity_t* ent);
+
 /*
 ======================================================================
 
@@ -553,7 +555,8 @@ DISRUPTOR
 static void WP_DisruptorMainFire( gentity_t *ent )
 //---------------------------------------------------------
 {
-	int			damage = DISRUPTOR_MAIN_DAMAGE;
+	// Alnico mod: damage comes from a cvar, rather than from a constant (DISRUPTOR_MAIN_DAMAGE)
+	int			damage = g_disruptor_damage.integer;
 	qboolean	render_impact = qtrue;
 	vec3_t		start, end;
 	trace_t		tr;
@@ -563,7 +566,8 @@ static void WP_DisruptorMainFire( gentity_t *ent )
 
 	if ( level.gametype == GT_SIEGE )
 	{
-		damage = DISRUPTOR_MAIN_DAMAGE_SIEGE;
+		// Alnico mod: damage comes from a cvar, rather than from a constant (DISRUPTOR_MAIN_DAMAGE_SIEGE)
+		damage = g_disruptor_siegeDamage.integer;
 	}
 
 	memset(&tr, 0, sizeof(tr)); //to shut the compiler up
@@ -671,7 +675,45 @@ static void WP_DisruptorMainFire( gentity_t *ent )
 				ent->client->accuracy_hits++;
 			}
 
+			////////////////////////////////////////////////////////////////////
+			// Alnico mod: store data in case we need to disintegrate ;)
+			vec3_t preAng;
+			int preHealth = traceEnt->health;
+			int preLegs = 0;
+			int preTorso = 0;
+
+			if (traceEnt->client)
+			{
+				preLegs = traceEnt->client->ps.legsAnim;
+				preTorso = traceEnt->client->ps.torsoAnim;
+				VectorCopy(traceEnt->client->ps.viewangles, preAng);
+			}
+			// Alnico mod
+			////////////////////////////////////////////////////////////////////
+
 			G_Damage( traceEnt, ent, ent, forward, tr.endpos, damage, DAMAGE_NORMAL, MOD_DISRUPTOR );
+
+			// Alnico mod: Is main fire configured to also disintegrate (on kill)?
+			if (
+				g_disruptor_mainDisint.value && G_CanDisruptify(traceEnt)
+				&& traceEnt->client && preHealth > 0 && traceEnt->health <= 0
+			) {
+				VectorCopy(preAng, traceEnt->client->ps.viewangles);
+
+				traceEnt->client->ps.eFlags |= EF_DISINTEGRATION;
+				VectorCopy(tr.endpos, traceEnt->client->ps.lastHitLoc);
+
+				traceEnt->client->ps.legsAnim = preLegs;
+				traceEnt->client->ps.torsoAnim = preTorso;
+
+				traceEnt->r.contents = 0;
+
+				VectorClear(traceEnt->client->ps.velocity);
+
+				if (g_disruptor_muteDisint.integer) {
+					G_MuteSound(traceEnt->s.number, CHAN_VOICE); // No screaming after disintegration
+				}
+			} // Alnico mod (g_disruptor_mainDisint)
 
 			tent = G_TempEntity( tr.endpos, EV_DISRUPTOR_HIT );
 			tent->s.eventParm = DirToByte( tr.plane.normal );
@@ -724,7 +766,8 @@ void WP_DisruptorAltFire( gentity_t *ent )
 	int			traces = DISRUPTOR_ALT_TRACES;
 	qboolean	fullCharge = qfalse;
 
-	damage = DISRUPTOR_ALT_DAMAGE-30;
+	// Alnico mod: damage comes from a cvar, rather than from a constant (DISRUPTOR_ALT_DAMAGE-30)
+	damage = g_disruptor_altDamage.integer - 30;
 
 	//VectorCopy( muzzle, muzzle2 ); // making a backup copy
 
@@ -946,6 +989,11 @@ void WP_DisruptorAltFire( gentity_t *ent )
 					traceEnt->r.contents = 0;
 
 					VectorClear(traceEnt->client->ps.velocity);
+
+					// Alnico mod: mute disintegration?
+					if (g_disruptor_muteDisint.integer) {
+						G_MuteSound(traceEnt->s.number, CHAN_VOICE); // No screaming after disintegration
+					}
 				}
 
 				tent = G_TempEntity( tr.endpos, EV_DISRUPTOR_HIT );
@@ -3444,7 +3492,8 @@ void WP_FireStunBaton( gentity_t *ent, qboolean alt_fire )
 		G_PlayEffect( EFFECT_STUNHIT, tr.endpos, tr.plane.normal );
 
 		G_Sound( tr_ent, CHAN_WEAPON, G_SoundIndex( va("sound/weapons/melee/punch%d", Q_irand(1, 4)) ) );
-		G_Damage( tr_ent, ent, ent, forward, tr.endpos, STUN_BATON_DAMAGE, (DAMAGE_NO_KNOCKBACK|DAMAGE_HALF_ABSORB), MOD_STUN_BATON );
+		// Alnico mod: damage comes from a cvar, rather than from a constant (STUN_BATON_DAMAGE)
+		G_Damage( tr_ent, ent, ent, forward, tr.endpos, g_stunBaton_damage.integer, (DAMAGE_NO_KNOCKBACK|DAMAGE_HALF_ABSORB), MOD_STUN_BATON );
 
 		if (tr_ent->client)
 		{ //if it's a player then use the shock effect
