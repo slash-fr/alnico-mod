@@ -505,6 +505,9 @@ typedef struct clientPersistant_s {
 	int			vote, teamvote; // 0 = none, 1 = yes, 2 = no
 
 	char		guid[33];
+
+	// Alnico mod: Welcome message timer
+	int			welcomeTimer;
 } clientPersistant_t;
 
 typedef struct renderInfo_s
@@ -590,9 +593,6 @@ struct gclient_s {
 	// the rest of the structure is private to game
 	clientPersistant_t	pers;
 	clientSession_t		sess;
-
-	// Alnico mod: Welcome message timer
-	int			welcomeTimer;
 
 	saberInfo_t	saber[MAX_SABERS];
 	void		*weaponGhoul2[MAX_SABERS];

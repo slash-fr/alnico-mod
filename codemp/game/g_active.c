@@ -1897,10 +1897,10 @@ void ClientThink_real( gentity_t *ent ) {
 
 		if (
 			client->pers.enterTime + welcomeMsgMilliseconds > level.time // No too late
-			&& client->welcomeTimer < level.time // Not too soon
+			&& client->pers.welcomeTimer < level.time // Not too soon
 		) {
 			trap->SendServerCommand(ent - g_entities, va("cp \"%s\"", G_NewString(g_welcomeMsg.string)));
-			client->welcomeTimer = level.time + 500; // Don't repeat the "cp" command more than once every 500 ms
+			client->pers.welcomeTimer = level.time + 500; // Don't repeat the "cp" command more than once every 500 ms
 		}
 	}
 
