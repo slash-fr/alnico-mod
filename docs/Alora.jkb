@@ -1,0 +1,201 @@
+//Alora personality
+
+//Do not let this file exceed 131072 bytes.
+
+//Do not let any group exceed 8192 bytes.
+
+//Do not let the chat section exceed 8192 bytes.
+
+//Some values are base values and changed by the in-game skill. The formula for reflex and accuracy
+//is basevalue/skill. So if you give a base reflex of 500ms, a nightmare bot will have a reaction time of
+//100ms. Other values, like turnspeed_combat (higher == faster), are multiplied by the skill number.
+
+//Note also that depending on if the bot and the enemy are moving at the same time, the degrees the bot
+//aims off by can be greater than the maximum accuracy value. So if the bot and its enemy are both flying
+//through the air and accuracy is at 20, the bot could easily aim off by 25 degrees instead. That is,
+//unless perfectaim is 1. In this case the bot will aim perfectly at all times (as the name indicates).
+
+GeneralBotInfo
+{
+	reflex			0
+				//base reflex value, time in ms it takes the bot to react
+	accuracy		0
+				//base accuracy, number of degrees bot can aim off by. Lower value == better aim.
+	turnspeed		0.01
+	turnspeed_combat	0.05
+	maxturn			360
+	perfectaim		1
+	chatability		1
+	chatfrequency		10
+				//frequency out of 10 (i.e. 10/10 = 100%)
+	hatelevel		3
+	camper			0
+	saberspecialist		1
+				//if 1, bot will not run just because it's forced to use a saber
+
+	//don't exceed 20 force points total
+	forceinfo		7-1-033300332000030330
+	//			    hlspptglrpattdssss
+	//			    eepuueriarbeereaaa
+	//			    aveslliggosaaaebbb
+	//			    l ehlephetommi eee
+	//			      d    t erhfn rrr
+	//			           n cbeo  adt
+	//			           i t ar  teh
+	//			           n   lc  tfr
+	//			           g    e  aeo
+	//			                   cnw
+	//			                   kd
+	//rank-side-heal.lev.speed.push.pull.tele.grip.lightning.rage.protect.absorb.teamheal.teamforce.drain.see.saberattack.saberdefend.saberthrow
+	//1==light side 2==dark side
+}
+
+//Weapons with a weight of 0 will be used in special cases outside of combat
+
+BotWeaponWeights
+{
+	WP_STUN_BATON		1
+	WP_SABER		20
+	WP_BRYAR_PISTOL		10
+	WP_BLASTER		12
+	WP_DISRUPTOR		13
+	WP_BOWCASTER		14
+	WP_REPEATER		15
+	WP_DEMP2		16
+	WP_FLECHETTE		18
+	WP_ROCKET_LAUNCHER	17
+	WP_THERMAL		9
+	WP_TRIP_MINE		0
+	WP_DET_PACK		0
+}
+
+EmotionalAttachments
+{
+	Rosh Penin		2
+}
+
+
+//all groups below here will be read in as chat sections
+BEGIN_CHAT_GROUPS
+
+GeneralGreetings
+{
+	You cannot hope to defeat me!
+}
+
+GeneralGreetingsSounds
+{
+	sound/chars/alora/miscanger3.mp3
+}
+
+ResponseGreetings
+{
+	So... The itty-bitty Jedi has come to rescue his friend? That's so sweet...
+	Join us! With Marka Ragnos as our master, we will defeat the Jedi, and rule the galaxy!
+	Are you afraid?
+	Show yourself, coward!
+	I sense you!
+	Do you fear me?
+	You cannot hide from me!
+	You are a coward!
+}
+
+ResponseGreetingsSounds
+{
+	sound/chars/alora/27alo001.mp3
+	sound/chars/alora/27alo016.mp3
+	sound/chars/alora/misc/jchase2.mp3
+	sound/chars/alora/misc/jdetected1.mp3
+	sound/chars/alora/misc/jdetected2.mp3
+	sound/chars/alora/misc/jdetected3.mp3
+	sound/chars/alora/misc/jlost3.mp3
+	sound/chars/alora/misc/taunt2.mp3
+}
+
+BelovedKilled
+{
+	Ooh, someone's getting awfully angry, aren't they?
+	Are all Jedi as weak as Rosh? Or just Katarn's personal brats?
+	Perhaps you too will learn to serve Tavion.
+	Finish him, Jedi!
+	Strike him down! Give in to your anger!
+	Well done, Jedi! You have become one of us!
+}
+
+BelovedKilledSounds
+{
+	sound/chars/alora/27alo003.mp3
+	sound/chars/alora/27alo007.mp3
+	sound/chars/alora/27alo008.mp3
+	sound/chars/alora/27alo010.mp3
+	sound/chars/alora/27alo011.mp3
+	sound/chars/alora/27alo015.mp3
+}
+
+KilledOnPurposeByLove
+{
+	LOL! You think so?                                                                                                  
+}
+
+KilledOnPurposeByLoveSounds
+{
+	sound/chars/alora/27alo017.mp3
+}
+
+Died
+{
+	We'll meet again, whelp!
+	Oh, but you are persistent, Jedi!
+	I will destroy you!
+	You won't get away, coward!
+	Come back and fight!
+	I will find you!
+}
+
+DiedSounds
+{
+	sound/chars/alora/10alo006.mp3
+	sound/chars/alora/27alo006.mp3
+	sound/chars/alora/misc/anger2.mp3
+	sound/chars/alora/misc/jchase1.mp3
+	sound/chars/alora/misc/jchase3.mp3
+	sound/chars/alora/misc/jlost1.mp3
+}
+
+Killed
+{
+	Ha ha ha ha ha ha ha!
+	How pathetic!
+	You are weak!
+	You are nothing!
+	Muahahaha!
+	Ha ha ha ha ha ha ha ha ha!
+	Ha!
+	Muahaha hahaha!
+	Now, Jedi, you WILL serve us in death!
+	The dark side is stronger!
+	That will teach you to defy me!
+	Take that!
+}
+
+KilledSounds
+{
+	sound/chars/alora/27alo004.mp3
+	sound/chars/alora/misc/deflect1.mp3
+	sound/chars/alora/misc/deflect3.mp3
+	sound/chars/alors/misc/gloat1.mp3
+	sound/chars/alora/misc/gloat2.mp3
+	sound/chars/alora/misc/gloat3.mp3
+	sound/chars/alora/misc/pushfail.mp3
+	sound/chars/alora/misc/taunt3.mp3
+	sound/chars/alora/misc/victory1.mp3
+	sound/chars/alora/misc/victory3.mp3
+	sound/chars/alora/misc/pushfail.mp3
+	sound/chars/alora/misc/pushfail.mp3
+}
+
+
+OrderAccepted
+{
+	As you wish.
+}

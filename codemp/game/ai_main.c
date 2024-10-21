@@ -7125,12 +7125,26 @@ void StandardBotAI(bot_state_t *bs, float thinktime)
 		else
 		{
 			trap->EA_Say(bs->client, bs->currentChat);
+
+			// Alnico mod ("bot chat sounds" feature)
+			if (bs->chatSoundIndex) {
+				if (bs->chatSoundLocation[0] == 0.0 && bs->chatSoundLocation[1] == 0 && bs->chatSoundLocation[2] == 0)
+				{
+					G_Sound(&g_entities[bs->client], CHAN_VOICE, bs->chatSoundIndex);
+				}
+				else
+				{
+					G_SoundAtLoc(bs->chatSoundLocation, CHAN_BODY, bs->chatSoundIndex);
+				}
+				bs->chatSoundIndex = 0;
+			}
 		}
 		if (bs->doChat == 2)
 		{
 			BotReplyGreetings(bs);
 		}
 		bs->doChat = 0;
+		VectorClear(bs->chatSoundLocation); // Alnico mod ("bot chat sounds" feature)
 	}
 
 	CTFFlagMovement(bs);

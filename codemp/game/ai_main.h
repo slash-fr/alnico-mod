@@ -269,6 +269,10 @@ typedef struct bot_state_s
 	float				chatTime;
 	float				chatTime_stored;
 	int					doChat;
+	// Alnico mod: Play the specified sound on the bot entity, at the same time as the chat message (CHAN_VOICE)
+	int					chatSoundIndex;
+	// Alnico mod: Play the chat sound at the specified location (CHAN_BODY) instead of at the bot location
+	vec3_t				chatSoundLocation;
 	int					chatTeam;
 	gentity_t			*chatObject;
 	gentity_t			*chatAltObject;

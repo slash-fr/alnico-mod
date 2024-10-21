@@ -7,7 +7,7 @@ It just adds a few extra **configuration variables** (`cvars`), that allow serve
 - Disable the chat (or not),
 - Set up a welcome message,
 - Adjust the amount of fall damage,
-- Modify the behavior of the *Disruptor rifle* and the *Stun Baton*,
+- Modify the behavior of the *Disruptor rifle* and the *Stun Baton* (damage, firing rate, ammo usage, ...),
 
 And, in FFA, TFFA, Duel and CTF modes:
 - **Configure which weapons / ammo / equipment the players spawn with**, (and you can omit the lightsaber, if you want),
@@ -17,6 +17,8 @@ And, in FFA, TFFA, Duel and CTF modes:
     or from picking up certain items (health, holdable items, ...)
   - The *"True Non Jedi"* mode disables force powers **(including jump level 1)**
 
+Finally, it also makes it possible for the bots to play a sound (voice line) along with their text chats.
+(This feature isn't based on `cvars`).  
 
 ## Configuration examples
 For a full list of custom `cvars`, please have a look at the example configuration files:  
@@ -29,6 +31,14 @@ At this point, it's basically Quake 3 with Star Wars assets. 😁
 
 All 3 files contain the full list of Alnico-mod-specific `cvars`.
 
+For an example of the "bot chat sound" configuration, check out:
+- [Alora.jkb](docs/Alora.jkb)
+- [RoshPenin.jkb](docs/RoshPenin.jkb)
+
+> **Tip:** It’s highly recommended to improve the bots' fighting capabilities by using `reflex 0`, `turnspeed_combat 0.05`,
+> `maxturn 360`, `perfectaim 1` (except maybe in Instagib mode), and probably `camper 0`.
+> (These settings aren't specific to Alnico mod).
+
 
 ## Building
 You only need to compile the **MP Game Library** project.
@@ -37,7 +47,8 @@ You only need to compile the **MP Game Library** project.
 ## License
 **Alnico mod** is licensed under the [GPLv2](LICENSE.txt).
 
-The source code is based on [**OpenJK**](https://github.com/JACoders/OpenJK). For reference, you can view the original README here:  
+The source code is based on [**OpenJK**](https://github.com/JACoders/OpenJK).
+For reference, you can view the original README here:  
 ➡️ [README-original.md](README-original.md)
 
 

@@ -348,7 +348,9 @@ int GetPairedValue(char *buf, char *key, char *outbuf)
 int BotDoChat(bot_state_t *bs, char *section, int always)
 {
 	char *chatgroup;
+	char* soundgroup; // Alnico mod: "Chat group" for the sounds (e.g. "Killed" => "KilledSounds")
 	int rVal;
+	int soundVal; // Alnico mod ("bot chat sounds" feature)
 	int inc_1;
 	int inc_2;
 	int inc_n;
@@ -356,6 +358,8 @@ int BotDoChat(bot_state_t *bs, char *section, int always)
 	int checkedline;
 	int getthisline;
 	gentity_t *cobject;
+	bs->chatSoundIndex = 0; // Alnico mod ("bot chat sounds" feature)
+	VectorClear(bs->chatSoundLocation); // Alnico mod ("bot chat sounds" feature)
 
 	if (!bs->canChat)
 	{
@@ -530,6 +534,99 @@ int BotDoChat(bot_state_t *bs, char *section, int always)
 	bs->chatTime = level.time + bs->chatTime_stored;
 
 	B_TempFree(MAX_CHAT_BUFFER_SIZE); //chatgroup
+
+	chatgroup = NULL;
+
+	////////////////////////////////////////////////////////////////////////////
+	// Alnico mod: Bot chat sounds
+	soundgroup = (char*)B_TempAlloc(MAX_CHAT_BUFFER_SIZE);
+
+	char soundSection[32] = "";
+	Q_strcat(soundSection, 32, section);
+	Q_strcat(soundSection, 32, "Sounds");
+
+	soundVal = GetValueGroup(gBotChatBuffer[bs->client], soundSection, soundgroup);
+
+	if (!soundVal) // The bot has no group defined for the sounds of the specified chat event
+	{
+		B_TempFree(MAX_CHAT_BUFFER_SIZE); // soundgroup
+		return 0;
+	}
+
+	inc_1 = 0;
+	inc_2 = 2;
+
+	while (soundgroup[inc_2] && soundgroup[inc_2] != '\0')
+	{
+		if (soundgroup[inc_2] != 13 && soundgroup[inc_2] != 9)
+		{
+			soundgroup[inc_1] = soundgroup[inc_2];
+			inc_1++;
+		}
+		inc_2++;
+	}
+	soundgroup[inc_1] = '\0';
+
+	inc_1 = 0;
+
+	lines = 0;
+
+	while (soundgroup[inc_1] && soundgroup[inc_1] != '\0')
+	{
+		if (soundgroup[inc_1] == '\n')
+		{
+			lines++;
+		}
+		inc_1++;
+	}
+
+	if (!lines || getthisline > lines)
+	{
+		B_TempFree(MAX_CHAT_BUFFER_SIZE); // soundgroup
+		return 0;
+	}
+
+	checkedline = 1;
+
+	inc_1 = 0;
+
+	while (checkedline != getthisline)
+	{
+		if (soundgroup[inc_1] && soundgroup[inc_1] != '\0')
+		{
+			if (soundgroup[inc_1] == '\n')
+			{
+				inc_1++;
+				checkedline++;
+			}
+		}
+
+		if (checkedline == getthisline)
+		{
+			break;
+		}
+
+		inc_1++;
+	}
+
+	// We're at the starting position of the desired line here
+	inc_2 = 0;
+
+	while (soundgroup[inc_1] != '\n')
+	{
+		soundgroup[inc_2] = soundgroup[inc_1];
+		inc_2++;
+		inc_1++;
+	}
+	soundgroup[inc_2] = '\0';
+
+	bs->chatSoundIndex = G_SoundIndex(soundgroup);
+	if (strcmp(section, "Died") == 0 || strcmp(section, "KilledOnPurposeByLove") == 0)
+	{
+		VectorCopy(g_entities[bs->client].r.currentOrigin, bs->chatSoundLocation);
+	}
+
+	B_TempFree(MAX_CHAT_BUFFER_SIZE); //soundgroup
 
 	return 1;
 }
