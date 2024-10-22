@@ -100,6 +100,8 @@ XCVAR_DEF( g_disruptor_altEnergyPerShot,"6",			NULL,						CVAR_ARCHIVE,									
 XCVAR_DEF( g_disruptor_altFireTime,		"1300",			NULL,						CVAR_ARCHIVE,									qfalse )
 // Disruptor main damage (does not apply to siege mode) - also applies to "alt fire" in "instant alt" mode
 XCVAR_DEF( g_disruptor_damage,			"30",			NULL,						CVAR_ARCHIVE,									qfalse )
+// Disruptor: disable scope (unfortunately, the scope will still flash on and off, due to client-size prediction)
+XCVAR_DEF( g_disruptor_disableScope,	"0",			NULL,						CVAR_ARCHIVE,									qfalse )
 // Disruptor energy (ammo) required per shot (main fire - also applies to "instant alt")
 XCVAR_DEF( g_disruptor_energyPerShot,	"5",			NULL,						CVAR_ARCHIVE,									qfalse )
 // Disruptor main firing rate (time between shots, in milliseconds) - also applies to "instant alt"

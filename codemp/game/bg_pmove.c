@@ -8126,25 +8126,42 @@ void PM_AdjustAttackStates( pmove_t *pmove )
 		if ( !(pmove->ps->eFlags & EF_ALT_FIRING) && (pmove->cmd.buttons & BUTTON_ALT_ATTACK) /*&&
 			pmove->cmd.upmove <= 0 && !pmove->cmd.forwardmove && !pmove->cmd.rightmove*/)
 		{
-			// We just pressed the alt-fire key
-			if ( !pmove->ps->zoomMode && pmove->ps->pm_type != PM_DEAD )
-			{
-				// not already zooming, so do it now
-				pmove->ps->zoomMode = 1;
-				pmove->ps->zoomLocked = qfalse;
-				pmove->ps->zoomFov = 80.0f;//cg_fov.value;
-				pmove->ps->zoomLockTime = pmove->cmd.serverTime + 50;
-				PM_AddEvent(EV_DISRUPTOR_ZOOMSOUND);
+			if (g_disruptor_disableScope.integer)
+			{ // Alnico mod: scope disabled
+#ifdef _GAME
+				gentity_t* servEnt = (gentity_t*)pm_entSelf;
+				if (servEnt && servEnt->client) {
+					G_SoundToClient(
+						servEnt->client,
+						servEnt,
+						CHAN_WEAPON,
+						G_SoundIndex("sound/interface/ammocon_empty.mp3")
+					);
+				}
+#endif
 			}
-			else if (pmove->ps->zoomMode == 1 && pmove->ps->zoomLockTime < pmove->cmd.serverTime)
-			{ //check for == 1 so we can't turn binoculars off with disruptor alt fire
-				// already zooming, so must be wanting to turn it off
-				pmove->ps->zoomMode = 0;
-				pmove->ps->zoomTime = pmove->ps->commandTime;
-				pmove->ps->zoomLocked = qfalse;
-				PM_AddEvent(EV_DISRUPTOR_ZOOMSOUND);
-				if (!g_instantWeaponChange.integer) {
-					pmove->ps->weaponTime = 1000;
+			else // Alnico mod: scope enabled
+			{
+				// We just pressed the alt-fire key
+				if ( !pmove->ps->zoomMode && pmove->ps->pm_type != PM_DEAD )
+				{
+					// not already zooming, so do it now
+					pmove->ps->zoomMode = 1;
+					pmove->ps->zoomLocked = qfalse;
+					pmove->ps->zoomFov = 80.0f;//cg_fov.value;
+					pmove->ps->zoomLockTime = pmove->cmd.serverTime + 50;
+					PM_AddEvent(EV_DISRUPTOR_ZOOMSOUND);
+				}
+				else if (pmove->ps->zoomMode == 1 && pmove->ps->zoomLockTime < pmove->cmd.serverTime)
+				{ //check for == 1 so we can't turn binoculars off with disruptor alt fire
+					// already zooming, so must be wanting to turn it off
+					pmove->ps->zoomMode = 0;
+					pmove->ps->zoomTime = pmove->ps->commandTime;
+					pmove->ps->zoomLocked = qfalse;
+					PM_AddEvent(EV_DISRUPTOR_ZOOMSOUND);
+					if (!g_instantWeaponChange.integer) {
+						pmove->ps->weaponTime = 1000;
+					}
 				}
 			}
 		}
@@ -10508,7 +10525,7 @@ void PmoveSingle (pmove_t *pmove) {
 	}
 	else if (pm->ps->weapon == WP_DISRUPTOR && pm->ps->zoomMode == 1)
 	{ //can't jump
-		if (pm->cmd.upmove > 0 && !g_disruptor_scopeJump.integer)
+		if (pm->cmd.upmove > 0 && !g_disruptor_scopeJump.integer) // Alnico mod: except with the "scope jump" option
 		{
 			pm->cmd.upmove = 0;
 		}

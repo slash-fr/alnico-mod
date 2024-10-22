@@ -1391,6 +1391,17 @@ void G_SoundAtLoc( vec3_t loc, int channel, int soundIndex ) {
 	te->s.saberEntityNum = channel;
 }
 
+// Alnico mod: Send a sound only to a specific client (at the location of the specified entity)
+void G_SoundToClient( gclient_t* client, gentity_t* ent, int channel, int soundIndex ) {
+	gentity_t* te;
+
+	te = G_SoundTempEntity( ent->r.currentOrigin, EV_GENERAL_SOUND, channel );
+	te->s.eventParm = soundIndex;
+	te->s.saberEntityNum = channel;
+	te->r.svFlags |= SVF_SINGLECLIENT;
+	te->r.singleClient = client->ps.clientNum;
+}
+
 /*
 =============
 G_EntitySound
