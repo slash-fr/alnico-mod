@@ -5825,6 +5825,12 @@ void PM_BeginWeaponChange( int weapon ) {
 	PM_SetAnim(SETANIM_TORSO, TORSO_DROPWEAP1, SETANIM_FLAG_OVERRIDE);
 
 	BG_ClearRocketLock( pm->ps );
+
+	// Alnico mod: reset weaponTime to allow the new weapon to fire immediately
+	if (g_instantWeaponChange.integer) {
+		pm->ps->weaponTime = 0;
+		// Do not reset weaponTimePerWeapon (yet). It is used to prevent from shooting the old weapon again too quickly.
+	}
 }
 
 
@@ -7233,11 +7239,6 @@ static void PM_Weapon( void )
 	// Alnico mod: CAN change even if the weapon has just fired (with g_instantWeaponChange)
 	if ( g_instantWeaponChange.integer || pm->ps->weaponTime <= 0 || pm->ps->weaponstate != WEAPON_FIRING ) {
 		if ( pm->ps->weapon != pm->cmd.weapon ) {
-			// Alnico mod: reset weaponTime to allow the new weapon to fire immediately
-			if (g_instantWeaponChange.integer) {
-				pm->ps->weaponTime = 0;
-				// Do not reset weaponTimePerWeapon (yet). It is used to prevent shooting the old weapon again too quickly.
-			}
 			PM_BeginWeaponChange( pm->cmd.weapon );
 		}
 	}
