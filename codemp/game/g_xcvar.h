@@ -139,6 +139,8 @@ XCVAR_DEF( g_g2TraceLod,				"3",			NULL,						CVAR_NONE,										qtrue )
 XCVAR_DEF( g_gametype,					"0",			NULL,						CVAR_SERVERINFO|CVAR_LATCH,						qfalse )
 XCVAR_DEF( g_gravity,					"800",			NULL,						CVAR_NONE,										qtrue )
 XCVAR_DEF( g_inactivity,				"0",			NULL,						CVAR_NONE,										qtrue )
+// Alnico mod: switch weapons without waiting for the fireTime delay
+XCVAR_DEF( g_instantWeaponChange,		"0",			NULL,						CVAR_ARCHIVE,									qfalse )
 XCVAR_DEF( g_jediVmerc,					"0",			NULL,						CVAR_SERVERINFO|CVAR_LATCH|CVAR_ARCHIVE,		qtrue )
 XCVAR_DEF( g_knockback,					"1000",			NULL,						CVAR_NONE,										qtrue )
 XCVAR_DEF( g_locationBasedDamage,		"1",			NULL,						CVAR_NONE,										qtrue )

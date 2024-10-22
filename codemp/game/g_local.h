@@ -404,6 +404,9 @@ struct gentity_s {
 
 	// OpenJK add
 	int			useDebounceTime;	// for cultist_destroyer
+
+	// Alnico mod: g_instantWeaponChange feature
+	int			weaponTimePerWeapon[MAX_WEAPONS];
 };
 
 #define DAMAGEREDIRECT_HEAD		1

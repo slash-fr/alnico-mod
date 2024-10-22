@@ -7148,6 +7148,20 @@ static void PM_Weapon( void )
 		pm->ps->weaponTime -= pml.msec;
 	}
 
+#ifdef _GAME
+	// Alnico mod: Also handle weaponTimePerWeapon
+	if (g_instantWeaponChange.integer && pm_entSelf)
+	{
+		gentity_t* servEnt = (gentity_t*)pm_entSelf;
+		for (int i = 0; i < MAX_WEAPONS; i++)
+		{
+			if (servEnt->weaponTimePerWeapon[i] > 0) {
+				servEnt->weaponTimePerWeapon[i] -= pml.msec;
+			}
+		}
+	}
+#endif
+
 	if (pm->ps->isJediMaster && pm->ps->emplacedIndex)
 	{
 		pm->ps->emplacedIndex = 0;
@@ -7216,8 +7230,14 @@ static void PM_Weapon( void )
 	// check for weapon change
 	// can't change if weapon is firing, but can change
 	// again if lowering or raising
-	if ( pm->ps->weaponTime <= 0 || pm->ps->weaponstate != WEAPON_FIRING ) {
+	// Alnico mod: CAN change even if the weapon has just fired (with g_instantWeaponChange)
+	if ( g_instantWeaponChange.integer || pm->ps->weaponTime <= 0 || pm->ps->weaponstate != WEAPON_FIRING ) {
 		if ( pm->ps->weapon != pm->cmd.weapon ) {
+			// Alnico mod: reset weaponTime to allow the new weapon to fire immediately
+			if (g_instantWeaponChange.integer) {
+				pm->ps->weaponTime = 0;
+				// Do not reset weaponTimePerWeapon (yet). It is used to prevent shooting the old weapon again too quickly.
+			}
 			PM_BeginWeaponChange( pm->cmd.weapon );
 		}
 	}
@@ -7250,11 +7270,23 @@ static void PM_Weapon( void )
 	// change weapon if time
 	if ( pm->ps->weaponstate == WEAPON_DROPPING ) {
 		PM_FinishWeaponChange();
+
+#ifdef _GAME
+		// Alnico mod: reset weaponTime to what it was before switching
+		if (pm_entSelf && g_instantWeaponChange.integer)
+		{
+			gentity_t* servEnt = (gentity_t*)pm_entSelf;
+			if (servEnt->weaponTimePerWeapon[pm->ps->weapon] > 0) {
+				pm->ps->weaponTime = max(0, servEnt->weaponTimePerWeapon[pm->ps->weapon]);
+			}
+		}
+#endif
+
 		return;
 	}
 
 	if ( pm->ps->weaponstate == WEAPON_RAISING ) {
-		pm->ps->weaponstate = WEAPON_READY;
+		pm->ps->weaponstate = WEAPON_READY;		
 		if (PM_CanSetWeaponAnims())
 		{
 			if ( pm->ps->weapon == WP_SABER )
@@ -7698,6 +7730,16 @@ static void PM_Weapon( void )
 	}
 
 	pm->ps->weaponTime += addTime;
+
+#ifdef _GAME
+	// Alnico mod: store the weaponTime per weapon, to prevent the "instantWeaponChange" feature from being abused.
+	// (Weapon switching must not allow any weapon to shoot faster than its fireTime)
+	if (pm_entSelf && g_instantWeaponChange.integer)
+	{
+		gentity_t *servEnt = (gentity_t*)pm_entSelf;
+		servEnt->weaponTimePerWeapon[pm->ps->weapon] = pm->ps->weaponTime;
+	}
+#endif
 }
 
 /*
@@ -8078,7 +8120,7 @@ void PM_AdjustAttackStates( pmove_t *pmove )
 	}
 
 	// disruptor alt-fire should toggle the zoom mode, but only bother doing this for the player?
-	if ( pmove->ps->weapon == WP_DISRUPTOR && pmove->ps->weaponstate == WEAPON_READY )
+	if ( pmove->ps->weapon == WP_DISRUPTOR && ( pmove->ps->weaponstate == WEAPON_READY || g_instantWeaponChange.integer ) )
 	{
 		if ( !(pmove->ps->eFlags & EF_ALT_FIRING) && (pmove->cmd.buttons & BUTTON_ALT_ATTACK) /*&&
 			pmove->cmd.upmove <= 0 && !pmove->cmd.forwardmove && !pmove->cmd.rightmove*/)
@@ -8100,7 +8142,9 @@ void PM_AdjustAttackStates( pmove_t *pmove )
 				pmove->ps->zoomTime = pmove->ps->commandTime;
 				pmove->ps->zoomLocked = qfalse;
 				PM_AddEvent(EV_DISRUPTOR_ZOOMSOUND);
-				pmove->ps->weaponTime = 1000;
+				if (!g_instantWeaponChange.integer) {
+					pmove->ps->weaponTime = 1000;
+				}
 			}
 		}
 		else if ( !(pmove->cmd.buttons & BUTTON_ALT_ATTACK ) && pmove->ps->zoomLockTime < pmove->cmd.serverTime)
