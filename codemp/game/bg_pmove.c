@@ -7259,10 +7259,10 @@ static void PM_Weapon( void )
 			return;
 		}
 
-		if (pm->cmd.forwardmove ||
-			pm->cmd.rightmove ||
-			pm->cmd.upmove > 0)
+		if (!g_disruptor_instantAlt.integer &&
+			(pm->cmd.forwardmove || pm->cmd.rightmove || pm->cmd.upmove > 0))
 		{
+			// Not allowed to shoot while zoomed in AND moving, except with g_disruptor_instantAlt (Alnico mod)
 			return;
 		}
 	}
