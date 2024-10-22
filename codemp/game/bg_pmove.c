@@ -10507,7 +10507,7 @@ void PmoveSingle (pmove_t *pmove) {
 	}
 	else if (pm->ps->weapon == WP_DISRUPTOR && pm->ps->zoomMode == 1)
 	{ //can't jump
-		if (pm->cmd.upmove > 0)
+		if (pm->cmd.upmove > 0 && !g_disruptor_scopeJump.integer)
 		{
 			pm->cmd.upmove = 0;
 		}

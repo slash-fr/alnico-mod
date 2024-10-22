@@ -110,6 +110,8 @@ XCVAR_DEF( g_disruptor_instantAlt,		"0",			NULL,						CVAR_ARCHIVE,									qfal
 XCVAR_DEF( g_disruptor_mainDisint,		"0",			NULL,						CVAR_ARCHIVE,									qfalse )
 // Disruptor disintegration prevents death scream
 XCVAR_DEF( g_disruptor_muteDisint,		"0",			NULL,						CVAR_ARCHIVE,									qfalse )
+// Disruptor: allow jumping while zoomed in
+XCVAR_DEF( g_disruptor_scopeJump,		"0",			NULL,						CVAR_ARCHIVE,									qfalse )
 // Disruptor main damage (siege only)
 XCVAR_DEF( g_disruptor_siegeDamage,		"50",			NULL,						CVAR_ARCHIVE,									qfalse )
 // End of Disruptor mods (Alnico Mod)
