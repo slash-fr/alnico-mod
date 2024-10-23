@@ -7278,7 +7278,7 @@ static void PM_Weapon( void )
 		{
 			gentity_t* servEnt = (gentity_t*)pm_entSelf;
 			if (servEnt->weaponTimePerWeapon[pm->ps->weapon] > 0) {
-				pm->ps->weaponTime = max(0, servEnt->weaponTimePerWeapon[pm->ps->weapon]);
+				pm->ps->weaponTime = servEnt->weaponTimePerWeapon[pm->ps->weapon];
 			}
 		}
 #endif

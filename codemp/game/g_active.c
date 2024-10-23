@@ -1890,10 +1890,10 @@ void ClientThink_real( gentity_t *ent ) {
 	// Alnico mod: Display the welcome message, if necessary
 	if (g_welcomeMsgDuration.integer && g_welcomeMsg.string[0]) { // There's a message, with a non-zero duration
 		// We need to take into account the fact that the message will stay visible for 3 seconds after the last call to "cp"
-		int welcomeMsgMilliseconds = max(
-			500, // Display the welcome message at least once (in the first 500 ms)
-			(g_welcomeMsgDuration.integer - 3) * 1000 // Remove 3 seconds from the configured delay
-		);
+		int welcomeMsgMilliseconds = (g_welcomeMsgDuration.integer - 3) * 1000; // Remove 3 seconds from the configured delay
+		if (welcomeMsgMilliseconds < 500) {
+			welcomeMsgMilliseconds = 500; // Display the welcome message at least once (in the first 500 ms)
+		}
 
 		if (
 			client->pers.enterTime + welcomeMsgMilliseconds > level.time // No too late
