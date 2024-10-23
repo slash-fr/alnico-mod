@@ -8131,6 +8131,10 @@ void PM_AdjustAttackStates( pmove_t *pmove )
 #ifdef _GAME
 				gentity_t* servEnt = (gentity_t*)pm_entSelf;
 				if (servEnt && servEnt->client) {
+					trap->SendServerCommand(
+						servEnt - g_entities,
+						"print \"The disruptor scope is currently disabled on this server.\n\""
+					);
 					G_SoundToClient(
 						servEnt->client,
 						servEnt,
