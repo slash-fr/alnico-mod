@@ -557,6 +557,7 @@ static void WP_DisruptorMainFire( gentity_t *ent )
 {
 	// Alnico mod: damage comes from a cvar, rather than from a constant (DISRUPTOR_MAIN_DAMAGE)
 	int			damage = g_disruptor_damage.integer;
+	qboolean    isHit = qfalse;
 	qboolean	render_impact = qtrue;
 	vec3_t		start, end;
 	trace_t		tr;
@@ -643,11 +644,17 @@ static void WP_DisruptorMainFire( gentity_t *ent )
 				te->s.weapon = 0;//saberNum
 				te->s.legsAnim = 0;//bladeNum
 
+				// Alnico mod: Handle restored "Impressive" reward
+				ent->client->accurateCount = 0;
+
 				return;
 			}
 		}
 		else if ( (traceEnt->flags&FL_SHIELDED) )
 		{//stopped cold
+			// Alnico mod: Handle restored "Impressive" reward
+			ent->client->accurateCount = 0;
+
 			return;
 		}
 		//a Jedi is not dodging this shot
@@ -672,6 +679,8 @@ static void WP_DisruptorMainFire( gentity_t *ent )
 		{
 			if ( traceEnt->client && LogAccuracyHit( traceEnt, ent ))
 			{
+				isHit = qtrue; // Alnico mod: Handle restored "Impressive" reward
+
 				ent->client->accuracy_hits++;
 			}
 
@@ -693,6 +702,7 @@ static void WP_DisruptorMainFire( gentity_t *ent )
 
 			G_Damage( traceEnt, ent, ent, forward, tr.endpos, damage, DAMAGE_NORMAL, MOD_DISRUPTOR );
 
+			////////////////////////////////////////////////////////////////////
 			// Alnico mod: Is main fire configured to also disintegrate (on kill)?
 			if (
 				g_disruptor_mainDisint.value && G_CanDisruptify(traceEnt)
@@ -713,7 +723,9 @@ static void WP_DisruptorMainFire( gentity_t *ent )
 				if (g_disruptor_muteDisint.integer) {
 					G_MuteSound(traceEnt->s.number, CHAN_VOICE); // No screaming after disintegration
 				}
-			} // Alnico mod (g_disruptor_mainDisint)
+			}
+			// Alnico mod (g_disruptor_mainDisint)
+			////////////////////////////////////////////////////////////////////
 
 			tent = G_TempEntity( tr.endpos, EV_DISRUPTOR_HIT );
 			tent->s.eventParm = DirToByte( tr.plane.normal );
@@ -730,6 +742,24 @@ static void WP_DisruptorMainFire( gentity_t *ent )
 			tent->s.weapon = 1;
 		}
 	}
+
+	////////////////////////////////////////////////////////////////////
+	// Alnico mod: Restore the "Impressive" reward
+	if (g_impressiveReward.integer && isHit)
+	{
+		ent->client->accurateCount++;
+		if ( ent->client->accurateCount >= 2 )
+		{
+			ent->client->accurateCount -= 2;
+			ent->client->ps.persistant[PERS_IMPRESSIVE_COUNT]++;
+		}
+	}
+	else
+	{
+		ent->client->accurateCount = 0;
+	}
+	// Alnico mod
+	////////////////////////////////////////////////////////////////////
 }
 
 
@@ -756,6 +786,7 @@ void WP_DisruptorAltFire( gentity_t *ent )
 {
 	int			damage = 0, skip;
 	qboolean	render_impact = qtrue;
+	qboolean    isHit = qfalse;
 	vec3_t		start, end;
 	//vec3_t		muzzle2;
 	trace_t		tr;
@@ -900,6 +931,9 @@ void WP_DisruptorAltFire( gentity_t *ent )
 				te->s.weapon = 0;//saberNum
 				te->s.legsAnim = 0;//bladeNum
 
+				// Alnico mod: Handle restored "Impressive" reward
+				traceEnt->client->accurateCount = 0;
+
 				return;
 			}
 		}
@@ -926,6 +960,8 @@ void WP_DisruptorAltFire( gentity_t *ent )
 				{
 					if (ent->client)
 					{
+						isHit = qtrue; // Alnico mod: Handle restored "Impressive" reward
+
 						ent->client->accuracy_hits++;
 					}
 				}
@@ -1014,6 +1050,24 @@ void WP_DisruptorAltFire( gentity_t *ent )
 		VectorCopy( tr.endpos, start );
 		skip = tr.entityNum;
 	}
+
+	////////////////////////////////////////////////////////////////////
+	// Alnico mod: Restore the "Impressive" reward
+	if (g_impressiveReward.integer && isHit)
+	{
+		ent->client->accurateCount++;
+		if ( ent->client->accurateCount >= 2 )
+		{
+			ent->client->accurateCount -= 2;
+			ent->client->ps.persistant[PERS_IMPRESSIVE_COUNT]++;
+		}
+	}
+	else
+	{
+		ent->client->accurateCount = 0;
+	}
+	// Alnico mod
+	////////////////////////////////////////////////////////////////////
 }
 
 

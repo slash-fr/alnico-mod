@@ -142,6 +142,9 @@ XCVAR_DEF( g_friendlySaber,				"0",			NULL,						CVAR_ARCHIVE,									qtrue )
 XCVAR_DEF( g_g2TraceLod,				"3",			NULL,						CVAR_NONE,										qtrue )
 XCVAR_DEF( g_gametype,					"0",			NULL,						CVAR_SERVERINFO|CVAR_LATCH,						qfalse )
 XCVAR_DEF( g_gravity,					"800",			NULL,						CVAR_NONE,										qtrue )
+// Alnico mod: Quake-3-style "impressive" award for 2 consecutive disruptor hits,
+//     on supported clients (e.g. TaystJK with cg_drawRewards 2)
+XCVAR_DEF( g_impressiveReward,          "0",            NULL,                       CVAR_ARCHIVE,									qfalse )
 XCVAR_DEF( g_inactivity,				"0",			NULL,						CVAR_NONE,										qtrue )
 // Alnico mod: switch weapons without waiting for the fireTime delay
 XCVAR_DEF( g_instantWeaponChange,		"0",			NULL,						CVAR_ARCHIVE,									qfalse )
