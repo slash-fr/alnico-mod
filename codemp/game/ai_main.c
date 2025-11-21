@@ -5235,7 +5235,8 @@ int BotSelectIdealWeapon(bot_state_t *bs)
 	// Alnico mod: If the stun baton can kill players in less than a second, switch to it at short range
 	if (bs->currentEnemy && bs->frame_Enemy_Len < 300 && BotWeaponSelectable(bs, WP_STUN_BATON))
 	{
-		const int damagePerSecond = g_stunBaton_damage.integer * 1000 / (min(max(25, g_stunBaton_fireTime.integer), 1000));
+		const int fireTime = Com_Clampi(25, 1000, g_stunBaton_fireTime.integer);
+		const int damagePerSecond = g_stunBaton_damage.integer * 1000 / fireTime;
 		if (damagePerSecond > g_spawn_health.integer + g_spawn_armor.integer)
 		{
 			bestweapon = WP_STUN_BATON;
