@@ -17,14 +17,14 @@
 
 GeneralBotInfo
 {
-	reflex			0
+	reflex			400
 				//base reflex value, time in ms it takes the bot to react
-	accuracy		0
+	accuracy		5
 				//base accuracy, number of degrees bot can aim off by. Lower value == better aim.
-	turnspeed		0.01
-	turnspeed_combat	0.05
+	turnspeed		0.1
+	turnspeed_combat	0.1
 	maxturn			360
-	perfectaim		1
+	perfectaim		0
 	chatability		1
 	chatfrequency		10
 				//frequency out of 10 (i.e. 10/10 = 100%)
