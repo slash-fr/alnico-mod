@@ -1,6 +1,9 @@
 ﻿# Alnico mod - Jedi Academy
 
-## About
+## Demo Video: Instagib FFA
+[![Instagib FFA - YouTube Video](https://img.youtube.com/vi/m7Mc62nzCpY/0.jpg)](https://www.youtube.com/watch?v=m7Mc62nzCpY)
+
+## Features
 **Alnico mod** is a simple **server-side** modification for **Star Wars Jedi Knight: Jedi Academy** (JKA).
 
 It mostly adds a few extra **configuration variables** (`cvars`), that allow server admins to:
