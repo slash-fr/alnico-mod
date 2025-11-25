@@ -117,18 +117,31 @@ ResponseGreetingsSounds
 }
 
 BelovedKilled
-{	
+{
+	Ooh, someone's getting awfully angry, aren't they?
+	Are all Jedi as weak as Rosh? Or just Katarn's personal brats?
 	Finish him, Jedi!
 	Strike him down! Give in to your anger!
+	Well done, Jedi! You have become one of us!
 }
 
 BelovedKilledSounds
 {
-	
-	
-	
+	sound/chars/alora/27alo003.mp3
+	sound/chars/alora/27alo007.mp3
 	sound/chars/alora/27alo010.mp3
 	sound/chars/alora/27alo011.mp3
+	sound/chars/alora/27alo015.mp3
+}
+
+KilledOnPurposeByLove
+{
+	LOL! You think so?
+}
+
+KilledOnPurposeByLoveSounds
+{
+	sound/chars/alora/27alo017.mp3
 }
 
 Died
@@ -139,8 +152,6 @@ Died
 	You won't get away, coward!
 	Come back and fight!
 	I will find you!
-	Well done, Jedi! You have become one of us!
-	LOL! You think so?                                                                                                  
 }
 
 DiedSounds
@@ -151,8 +162,6 @@ DiedSounds
 	sound/chars/alora/misc/jchase1.mp3
 	sound/chars/alora/misc/jchase3.mp3
 	sound/chars/alora/misc/jlost1.mp3
-	sound/chars/alora/27alo015.mp3
-	sound/chars/alora/27alo017.mp3
 }
 
 Killed
@@ -167,9 +176,7 @@ Killed
 	Muahaha hahaha!
 	Now, Jedi, you WILL serve us in death!
 	The dark side is stronger!
-	Ooh, someone's getting awfully angry, aren't they?
 	Perhaps you too will learn to serve Tavion.
-	Are all Jedi as weak as Rosh? Or just Katarn's personal brats?
 }
 
 KilledSounds
@@ -184,11 +191,8 @@ KilledSounds
 	sound/chars/alora/misc/taunt3.mp3
 	sound/chars/alora/misc/victory1.mp3
 	sound/chars/alora/misc/victory3.mp3
-	sound/chars/alora/27alo003.mp3
 	sound/chars/alora/27alo008.mp3
-	sound/chars/alora/27alo007.mp3
 }
-
 
 OrderAccepted
 {
