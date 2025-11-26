@@ -7145,7 +7145,7 @@ void StandardBotAI(bot_state_t *bs, float thinktime)
 			if (bs->chatSoundIndex) {
 				if (bs->chatSoundLocation[0] == 0.0 && bs->chatSoundLocation[1] == 0 && bs->chatSoundLocation[2] == 0)
 				{
-					G_Sound(&g_entities[bs->client], CHAN_VOICE, bs->chatSoundIndex);
+					G_EntitySound(&g_entities[bs->client], CHAN_VOICE, bs->chatSoundIndex);
 				}
 				else
 				{
