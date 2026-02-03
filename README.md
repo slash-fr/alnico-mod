@@ -83,7 +83,16 @@ which means you don’t need to subtract the coordinates of the Bmodel from the 
 
 
 ## Building
-You only need to compile the **MP Game Library** project.
+You only need to compile the **multiplayer game library** target.
+
+This is what `CMakeLists.txt` is configured to do.
+
+Example commands using CMake:
+```sh
+cd alnico-mod
+cmake -S . -B build-release/ -D CMAKE_BUILD_TYPE=Release
+cmake --build build-release/
+```
 
 
 ## License
